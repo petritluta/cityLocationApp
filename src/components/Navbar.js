@@ -1,5 +1,6 @@
 import React from "react";
 import { MapPin, Home, Lock, Users } from "react-feather";
+import { Link } from "react-router-dom";
 class Navbar extends React.Component {
   render() {
     return (
@@ -21,7 +22,9 @@ class Navbar extends React.Component {
               <li className="nav-item">
                 <a className="nav-link active" aria-current="page" href="/#">
                   <MapPin />
-                  Cities
+                  <Link to="/city" style={{ textDecoration: "none",color:"rgba(0,0,0,.55)" }}>
+                    City
+                  </Link>
                 </a>
               </li>
               <li className="nav-item">
@@ -32,13 +35,15 @@ class Navbar extends React.Component {
               </li>
             </ul>
 
-            <div class="mx-auto d-none d-sm-none d-md-none d-lg-block">
+            <div className="mx-auto d-none d-sm-none d-md-none d-lg-block">
               <a className="navbar-brand" href="/#">
-                <img
-                  src={`${process.env.PUBLIC_URL}/images/logo-horizontal.png`}
-                  alt="Good dogo"
-                  style={{ width: 150, height: 62 }}
-                />
+                <Link to="/">
+                  <img
+                    src={`${process.env.PUBLIC_URL}/images/logo-horizontal.png`}
+                    alt="Good dogo"
+                    style={{ width: 150, height: 62 }}
+                  />
+                </Link>
               </a>
             </div>
 
