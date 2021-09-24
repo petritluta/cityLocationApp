@@ -20,12 +20,10 @@ class Navbar extends React.Component {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto ms-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="/#">
+                <Link to="/city" className="nav-link">
                   <MapPin />
-                  <Link to="/city" style={{ textDecoration: "none",color:"rgba(0,0,0,.55)" }}>
-                    City
-                  </Link>
-                </a>
+                  City
+                </Link>
               </li>
               <li className="nav-item">
                 <a className="nav-link" href="/#">
@@ -36,15 +34,13 @@ class Navbar extends React.Component {
             </ul>
 
             <div className="mx-auto d-none d-sm-none d-md-none d-lg-block">
-              <a className="navbar-brand" href="/#">
-                <Link to="/">
-                  <img
-                    src={`${process.env.PUBLIC_URL}/images/logo-horizontal.png`}
-                    alt="Good dogo"
-                    style={{ width: 150, height: 62 }}
-                  />
-                </Link>
-              </a>
+              <Link to="/">
+                <img
+                  src={`${process.env.PUBLIC_URL}/images/logo-horizontal.png`}
+                  alt="Good dogo"
+                  style={{ width: 150, height: 62 }}
+                />
+              </Link>
             </div>
 
             <ul className="navbar-nav me-auto ms-auto mb-2 mb-lg-0">

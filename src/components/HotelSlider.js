@@ -1,33 +1,32 @@
 import React from "react";
 import Carousel from "react-multi-carousel";
-import { Calendar, Phone } from "react-feather";
+import { DollarSign, Phone } from "react-feather";
 import "react-multi-carousel/lib/styles.css";
+import { BASE_URL } from "../utils/constants";
+import axios from "axios";
 
 class HotelSlider extends React.Component {
   state = {
-    hotels: [
-      {
-        name: "Emerald Hotel",
-        status: 0,
-        address: "Prishtina",
-        phone: "044 212 212",
-        date: "2021/09/03",
-      },
-      {
-        name: "Gradn Hotel",
-        status: 1,
-        address: "New York",
-        phone: "044 312 212",
-        date: "2021/09/03",
-      },
-      {
-        name: "Marriot",
-        status: 2,
-        address: "Berlin",
-        phone: "044 212 212",
-        date: "2021/09/03",
-      },
-    ],
+    hotels: [],
+  };
+
+  componentDidMount() {
+    axios.get(BASE_URL + "locations/").then((res) => {
+      this.setState({ ...this.state, hotels: res.data.slice(0, 8) });
+    });
+  }
+
+  renderCardClass = (hotel) => {
+    switch (hotel.status) {
+      case "Available":
+        return "status-succ";
+      case "Active":
+        return "status-active";
+      case "Unavailable":
+        return "status-danger";
+      default:
+        return;
+    }
   };
 
   render() {
@@ -49,6 +48,7 @@ class HotelSlider extends React.Component {
         items: 1,
       },
     };
+
     return (
       <div className="container hotel-slider mt-5 mb-3">
         <div className="row">
@@ -60,85 +60,41 @@ class HotelSlider extends React.Component {
         </div>
 
         <Carousel responsive={responsive} infinite={true}>
-          <div class="cardcontainer">
-            <div class="photo">
-              <img src="https://pix10.agoda.net/hotelImages/124/1246280/1246280_16061017110043391702.jpg?s=1024x768" />
-              <div class="status-succ">Available</div>
-            </div>
-            <div class="content">
-              <p class="txt4">Emerald Hotel</p>
-              <p class="txt5">Manhatan square</p>
-            </div>
-            <div class="footer">
-              <p>
-                <a class="waves-effect waves-light btn" href="#">
-                  Read More
-                </a>
-                <a id="pointer">
-                  <span class="phone-num">
-                    <Phone />
-                    +383 44 123
-                  </span>
-                </a>
-              </p>
-              <p class="txt3 text-center">
-                <Calendar />
-                2021/05/02
-              </p>
-            </div>
-          </div>
-          <div class="cardcontainer">
-            <div class="photo">
-              <img src={`${process.env.PUBLIC_URL}/images/hotel2.jfif`} />
-              <div class="status-danger">Unavailable</div>
-            </div>
-            <div class="content">
-              <p class="txt4">Hotel Grand</p>
-              <p class="txt5">Dardani Rr Agim Ramadani</p>
-            </div>
-            <div class="footer">
-              <p>
-                <a class="waves-effect waves-light btn" href="#">
-                  Read More
-                </a>
-                <a id="pointer">
-                  <span class="phone-num">
-                    <Phone />
-                    +383 44 123
-                  </span>
-                </a>
-              </p>
-              <p class="txt3 text-center">
-                <Calendar />
-                2021/05/03
-              </p>
-            </div>
-          </div>
-          <div class="cardcontainer">
-            <div class="photo">
-              <img src={`${process.env.PUBLIC_URL}/images/hotel3.jpg`} />
-              <div class="status-active">Active</div>
-            </div>
-            <div class="content">
-              <p class="txt4">Marriot</p>
-              <p class="txt5">Hartmannweg 65 Germany</p>
-            </div>
-            <div class="footer">
-              <p>
-                <a class="waves-effect waves-light btn" href="#">
-                  Read More
-                </a>
-                <a id="pointer">
-                  <span class="phone-num">
-                    <Phone /> +49 (012) 308
-                  </span>
-                </a>
-              </p>
-              <p class="txt3 text-center">
-                <Calendar /> 2021-09-15
-              </p>
-            </div>
-          </div>
+          {this.state.hotels.map((hotel) => {
+            return (
+              <div className="cardcontainer" key={hotel.id}>
+                <div className="photo">
+                  <img
+                    alt={hotel.name}
+                    src="https://pix10.agoda.net/hotelImages/124/1246280/1246280_16061017110043391702.jpg?s=1024x768"
+                  />
+                  <div className={this.renderCardClass(hotel)}>
+                    {hotel.status}
+                  </div>
+                </div>
+                <div className="content">
+                  <p className="txt4">{hotel.name}</p>
+                  <p className="txt5">
+                    {hotel.street_name} {hotel.street_number}
+                  </p>
+                </div>
+                <div className="footer">
+                  <p className="text-center">
+                    <a id="pointer" href="#/">
+                      <span className="phone-num">
+                        <Phone />
+                        {hotel.phone}
+                      </span>
+                    </a>
+                  </p>
+                  <p className="txt3 text-center">
+                    <DollarSign />
+                    {hotel.rent}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
         </Carousel>
       </div>
     );
