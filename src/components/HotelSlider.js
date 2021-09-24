@@ -4,6 +4,7 @@ import { DollarSign, Phone } from "react-feather";
 import "react-multi-carousel/lib/styles.css";
 import { BASE_URL } from "../utils/constants";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 class HotelSlider extends React.Component {
   state = {
@@ -73,7 +74,11 @@ class HotelSlider extends React.Component {
                   </div>
                 </div>
                 <div className="content">
-                  <p className="txt4">{hotel.name}</p>
+                  <p className="txt4">
+                    <Link to={{ pathname: "/hotels/" + hotel.id }}>
+                      {hotel.name}
+                    </Link>
+                  </p>
                   <p className="txt5">
                     {hotel.street_name} {hotel.street_number}
                   </p>

@@ -4,6 +4,7 @@ import Map from "../components/Map";
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
 import Modal from "react-modal";
+import { Link } from "react-router-dom";
 
 class Location extends React.Component {
   state = {
@@ -288,16 +289,16 @@ class Location extends React.Component {
                             <a href={`mailto:${hotel.email}`}>{hotel.email}</a>
                           </small>
                         </div>
-                        {/* <button type="button" className="btn ">
-                          <a
-                            href="#/"
-                            style={{ textDecoration: "none" }}
+                        <button type="button" className="btn ">
+                          <Link
                             className="text-active"
-                            onClick={() => this.openModal(hotel.id)}
+                            style={{ textDecoration: "none" }}
+                            to={{ pathname: "/hotels/" + hotel.id }}
+                            key={hotel.id}
                           >
                             <i className="fa fa-pen mr-2"></i> Edit
-                          </a>
-                        </button> */}
+                          </Link>
+                        </button>
                         <button type="button" className="btn ">
                           <a
                             href="#/"
@@ -512,5 +513,4 @@ class Location extends React.Component {
     );
   }
 }
-
 export default Location;

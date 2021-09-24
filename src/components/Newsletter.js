@@ -9,7 +9,8 @@ const NewsLetter = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(`Thanks for registering ${formData.email}`);
+    alert(`Thanks for registering ${formData.email}`);
+    setformData({ email: "" });
     //Put api request to register user in  newsletter table in DB
   };
 
