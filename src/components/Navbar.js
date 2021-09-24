@@ -26,10 +26,10 @@ class Navbar extends React.Component {
                 </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/#">
+                <Link to="/hotels" className="nav-link">
                   <Home />
                   Hotels
-                </a>
+                </Link>
               </li>
             </ul>
 

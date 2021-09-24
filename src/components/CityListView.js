@@ -14,6 +14,9 @@ class CityList extends React.Component {
     modalFormName: "",
     modalFormCode: "",
     modalFormId: "",
+    createModalName: "",
+    createModalCode: "",
+    createModalOpen: false,
   };
 
   getAllCities = () => {
@@ -45,6 +48,20 @@ class CityList extends React.Component {
     state.modalFormId = state.cities.filter((city) => city.id === id)[0].id;
 
     this.setState(state);
+  };
+
+  openCreateModal = () => {
+    this.setState({
+      ...this.state,
+      createModalOpen: true,
+    });
+  };
+
+  closeCreateModal = () => {
+    this.setState({
+      ...this.state,
+      createModalOpen: false,
+    });
   };
 
   closeModal = () => {
@@ -96,6 +113,32 @@ class CityList extends React.Component {
 
   modalCodeChange = (e) => {
     this.setState({ ...this.state, modalFormCode: e.target.value });
+  };
+
+  createModalCodeChange = (e) => {
+    this.setState({ ...this.state, createModalCode: e.target.value });
+  };
+
+  createModalNameChange = (e) => {
+    this.setState({ ...this.state, createModalName: e.target.value });
+  };
+
+  createCity = (e) => {
+    e.preventDefault();
+    axios
+      .post(BASE_URL + `cities/`, {
+        name: this.state.createModalName,
+        code: this.state.createModalCode,
+      })
+      .then((res) => {
+        this.getAllCities();
+        this.setState({
+          ...this.state,
+          createModalName: "",
+          createModalCode: "",
+          createModalOpen: false,
+        });
+      });
   };
 
   handleModalSubmit = (e) => {
@@ -163,7 +206,11 @@ class CityList extends React.Component {
                 </button>
               </div>
               <div className="col-lg-1 mt-2">
-                <button type="button" className="form-control  btn-primary">
+                <button
+                  type="button"
+                  className="form-control  btn-primary"
+                  onClick={this.openCreateModal}
+                >
                   <Plus />
                 </button>
               </div>
@@ -267,6 +314,54 @@ class CityList extends React.Component {
 
                   <button type="submit" className="btn btn-primary mr-5">
                     Edit
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </Modal>
+        <Modal isOpen={this.state.createModalOpen}>
+          <div className="container">
+            <div className="row mb-2">
+              <div className="col">
+                <button
+                  onClick={this.closeCreateModal}
+                  className="btn btn-danger float-end"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col">
+                <form onSubmit={this.createCity}>
+                  <div className="mb-3">
+                    <label htmlFor="name" className="form-label">
+                      City Name
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="name"
+                      value={this.state.createModalName || ""}
+                      onChange={this.createModalNameChange}
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label htmlFor="code" className="form-label">
+                      City Code
+                    </label>
+                    <input
+                      type="number"
+                      className="form-control"
+                      id="code"
+                      value={this.state.createModalCode || ""}
+                      onChange={this.createModalCodeChange}
+                    />
+                  </div>
+
+                  <button type="submit" className="btn btn-primary mr-5">
+                    Create
                   </button>
                 </form>
               </div>

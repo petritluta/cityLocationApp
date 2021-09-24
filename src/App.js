@@ -2,6 +2,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Homepage from "./pages/Home";
 import CityPage from "./pages/Cities";
+import Location from "./pages/Location";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./style/app.css";
 
@@ -16,6 +17,9 @@ function App() {
           </Route>
           <Route path="/city">
             <CityPage />
+          </Route>
+          <Route path="/hotels">
+            <Location />
           </Route>
         </Switch>
 
